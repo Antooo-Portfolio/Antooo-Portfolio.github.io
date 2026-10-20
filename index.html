@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Antony Rodrigues — Formation</title>
+    <title>Portfolio - Antony Rodrigues</title>
     <link rel="icon" type="image/svg+xml" href="images/logo-site-icon.svg" />
 
     <!-- Tailwind CSS -->
@@ -114,8 +114,8 @@
 
     <!-- Main Content Area -->
     <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-3">
-      <!-- Controls: Barre de recherche (100% de la largeur) -->
-      <div class="mb-5">
+      <!-- Controls: Search and project category filters -->
+      <div class="mb-5 space-y-3">
         <div class="relative w-full">
           <i
             data-lucide="search"
@@ -129,9 +129,36 @@
           />
         </div>
         <div
-          class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none hidden"
-          id="techFilters"
-        ></div>
+          class="flex flex-wrap items-center gap-2"
+          id="categoryFilters"
+          role="group"
+          aria-label="Filtrer les projets par catégorie"
+        >
+          <button
+            type="button"
+            data-category-filter="all"
+            aria-pressed="true"
+            class="category-filter rounded-lg border border-brand-500 bg-brand-600 px-3 py-1.5 text-xs font-medium text-white transition"
+          >
+            Tous les projets
+          </button>
+          <button
+            type="button"
+            data-category-filter="formation"
+            aria-pressed="false"
+            class="category-filter rounded-lg border border-gray-700 bg-gray-800/80 px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-gray-700"
+          >
+            Formation
+          </button>
+          <button
+            type="button"
+            data-category-filter="perso"
+            aria-pressed="false"
+            class="category-filter rounded-lg border border-gray-700 bg-gray-800/80 px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-gray-700"
+          >
+            Personnel
+          </button>
+        </div>
       </div>
 
       <!-- Projects Grid -->
@@ -143,6 +170,7 @@
         <article
           class="project-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
           data-tags="HTML/CSS,JavaScript"
+          data-category="formation"
         >
           <div>
             <div class="flex items-center justify-between mb-3">
@@ -160,6 +188,11 @@
             >
               Boutique en Ligne
             </h2>
+            <span
+              class="inline-flex mb-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-0.5 text-[10px] font-medium text-sky-300"
+            >
+              Projet Formation
+            </span>
             <p
               class="text-xs sm:text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed"
             >
@@ -223,7 +256,7 @@
         ></i>
         <h3 class="text-sm font-semibold text-gray-300">Aucun projet trouvé</h3>
         <p class="text-xs text-gray-500 mt-1">
-          Essayez un autre mot-clé de recherche.
+          Essayez un autre mot-clé ou changez de catégorie.
         </p>
       </div>
     </main>
@@ -246,6 +279,8 @@
       const searchInput = document.getElementById("searchInput");
       const projectCards = document.querySelectorAll(".project-card");
       const noResults = document.getElementById("noResults");
+      const categoryFilters = document.querySelectorAll(".category-filter");
+      let activeCategory = "all";
 
       function filterProjects() {
         const searchQuery = searchInput.value.toLowerCase().trim();
@@ -257,8 +292,11 @@
 
           const matchesSearch =
             title.includes(searchQuery) || description.includes(searchQuery);
+          const matchesCategory =
+            activeCategory === "all" ||
+            card.dataset.category === activeCategory;
 
-          if (matchesSearch) {
+          if (matchesSearch && matchesCategory) {
             card.style.display = "flex";
             visibleCount++;
           } else {
@@ -268,6 +306,25 @@
 
         noResults.classList.toggle("hidden", visibleCount > 0);
       }
+
+      categoryFilters.forEach((button) => {
+        button.addEventListener("click", () => {
+          activeCategory = button.dataset.categoryFilter;
+
+          categoryFilters.forEach((filter) => {
+            const isActive = filter === button;
+            filter.setAttribute("aria-pressed", String(isActive));
+            filter.classList.toggle("border-brand-500", isActive);
+            filter.classList.toggle("bg-brand-600", isActive);
+            filter.classList.toggle("text-white", isActive);
+            filter.classList.toggle("border-gray-700", !isActive);
+            filter.classList.toggle("bg-gray-800/80", !isActive);
+            filter.classList.toggle("text-gray-300", !isActive);
+          });
+
+          filterProjects();
+        });
+      });
 
       searchInput.addEventListener("input", filterProjects);
     </script>
