@@ -1,2 +1,0 @@
-# cours.antonyrodrigues.fr
-Cours
