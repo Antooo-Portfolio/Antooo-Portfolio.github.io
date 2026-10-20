@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" class="dark scroll-smooth">
+<html lang="fr" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,24 +10,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
-        darkMode: "class",
         theme: {
           extend: {
             colors: {
               brand: {
-                50: "#eef2ff",
-                100: "#e0e7ff",
                 400: "#818cf8",
                 500: "#6366f1",
                 600: "#4f46e5",
-                900: "#312e81",
               },
-              darkbg: "#0B0F17",
-              cardbg: "#111827",
-              bordercolor: "#1F2937",
             },
             fontFamily: {
-              sans: ["Inter", "sans-serif"],
               mono: ["Fira Code", "monospace"],
             },
           },
@@ -51,9 +43,6 @@
         font-family: "Inter", sans-serif;
         background-color: #0b0f17;
         color: #f3f4f6;
-      }
-      .glow-effect {
-        box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.25);
       }
       .glass-card {
         background: rgba(17, 24, 39, 0.7);
@@ -199,8 +188,7 @@
       >
         <!-- Card 1: Boutique en Ligne -->
         <article
-          class="project-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
-          data-tags="HTML/CSS,JavaScript"
+          class="project-card group glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
           data-category="formation"
           data-status="development"
         >
@@ -240,11 +228,6 @@
               >
                 HTML/CSS
               </span>
-              <span
-                class="px-2 py-0.5 rounded text-[10px] font-mono bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
-              >
-                JavaScript
-              </span>
             </div>
 
             <!-- Action Buttons -->
@@ -281,8 +264,7 @@
 
         <!-- Card 2: Borne d'Aracade -->
         <article
-          class="project-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
-          data-tags="HTML/CSS,JavaScript"
+          class="project-card group glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
           data-category="formation"
           data-status="completed"
         >
@@ -350,8 +332,7 @@
 
         <!-- Card 3: Aventure Textuelle -->
         <article
-          class="project-card glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
-          data-tags="HTML/CSS,JavaScript"
+          class="project-card group glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
           data-category="formation"
           data-status="development"
         >
@@ -379,7 +360,9 @@
             <p
               class="text-xs sm:text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed"
             >
-              Développement d'un moteur de jeu d'aventure textuelle, dans l'esprit des premiers jeux d'aventure (Colossal Cave Adventure, Zork).
+              Développement d'un moteur de jeu d'aventure textuelle, dans
+              l'esprit des premiers jeux d'aventure (Colossal Cave Adventure,
+              Zork).
             </p>
           </div>
 
@@ -425,7 +408,8 @@
         ></i>
         <h3 class="text-sm font-semibold text-gray-300">Aucun projet trouvé</h3>
         <p class="text-xs text-gray-500 mt-1">
-          Essayez un autre mot-clé ou modifiez les filtres de catégorie et d’état.
+          Essayez un autre mot-clé ou modifiez les filtres de catégorie et
+          d’état.
         </p>
       </div>
     </main>
@@ -500,21 +484,23 @@
         noResults.classList.toggle("hidden", visibleCount > 0);
       }
 
+      function updateActiveFilter(button, filters) {
+        filters.forEach((filter) => {
+          const isActive = filter === button;
+          filter.setAttribute("aria-pressed", String(isActive));
+          filter.classList.toggle("border-brand-500", isActive);
+          filter.classList.toggle("bg-brand-600", isActive);
+          filter.classList.toggle("text-white", isActive);
+          filter.classList.toggle("border-gray-700", !isActive);
+          filter.classList.toggle("bg-gray-800/80", !isActive);
+          filter.classList.toggle("text-gray-300", !isActive);
+        });
+      }
+
       categoryFilters.forEach((button) => {
         button.addEventListener("click", () => {
           activeCategory = button.dataset.categoryFilter;
-
-          categoryFilters.forEach((filter) => {
-            const isActive = filter === button;
-            filter.setAttribute("aria-pressed", String(isActive));
-            filter.classList.toggle("border-brand-500", isActive);
-            filter.classList.toggle("bg-brand-600", isActive);
-            filter.classList.toggle("text-white", isActive);
-            filter.classList.toggle("border-gray-700", !isActive);
-            filter.classList.toggle("bg-gray-800/80", !isActive);
-            filter.classList.toggle("text-gray-300", !isActive);
-          });
-
+          updateActiveFilter(button, categoryFilters);
           filterProjects();
         });
       });
@@ -522,18 +508,7 @@
       statusFilters.forEach((button) => {
         button.addEventListener("click", () => {
           activeStatus = button.dataset.statusFilter;
-
-          statusFilters.forEach((filter) => {
-            const isActive = filter === button;
-            filter.setAttribute("aria-pressed", String(isActive));
-            filter.classList.toggle("border-brand-500", isActive);
-            filter.classList.toggle("bg-brand-600", isActive);
-            filter.classList.toggle("text-white", isActive);
-            filter.classList.toggle("border-gray-700", !isActive);
-            filter.classList.toggle("bg-gray-800/80", !isActive);
-            filter.classList.toggle("text-gray-300", !isActive);
-          });
-
+          updateActiveFilter(button, statusFilters);
           filterProjects();
         });
       });
