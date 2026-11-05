@@ -1,518 +1,1378 @@
 <!doctype html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio - Antony Rodrigues</title>
+    <title>Antony Rodrigues - Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio d'Antony Rodrigues, en formation à l'ESGI Grenoble : projets, code source et CV à télécharger."
+    />
     <link rel="icon" type="image/svg+xml" href="images/logo-site-icon.svg" />
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                400: "#818cf8",
-                500: "#6366f1",
-                600: "#4f46e5",
-              },
-            },
-            fontFamily: {
-              mono: ["Fira Code", "monospace"],
-            },
-          },
-        },
-      };
-    </script>
-
-    <!-- Google Fonts -->
+    <!-- Google Fonts : Anybody (titres), Instrument Sans (texte), JetBrains Mono (écrans de terminal) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
     <style>
+      :root {
+        --ink: #0f1235;
+        --ink-raised: #151946;
+        --paper: #eef0fa;
+        --mist: #9a9ece;
+        --indigo: #6d6bff;
+        --signal: #ffc94a;
+        --mint: #8ee6b4;
+        --line: rgba(238, 240, 250, 0.12);
+        --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --gutter: clamp(1rem, 4vw, 3rem);
+        --display: "Anybody", "Arial Narrow", sans-serif;
+        --body: "Instrument Sans", system-ui, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, monospace;
+        --drop: 0 2em 4em -1em rgba(4, 5, 25, 0.75);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html.lenis,
+      html.lenis body {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+
       body {
-        font-family: "Inter", sans-serif;
-        background-color: #0b0f17;
-        color: #f3f4f6;
+        margin: 0;
+        font-family: var(--body);
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        color: var(--paper);
+        background:
+          radial-gradient(
+            55rem 40rem at 80% 10%,
+            rgba(109, 107, 255, 0.2),
+            transparent 70%
+          ),
+          var(--ink);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
-      .glass-card {
-        background: rgba(17, 24, 39, 0.7);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+
+      ::selection {
+        background: var(--indigo);
+        color: var(--paper);
       }
-      .glass-card:hover {
-        border-color: rgba(99, 102, 241, 0.4);
+
+      a {
+        color: inherit;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--signal);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: 90rem;
+        margin: 0 auto;
+        padding: 0 var(--gutter);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      [hidden] {
+        display: none !important;
+      }
+
+      /* Titres : la même voix condensée que la section CV */
+      .display {
+        margin: 0;
+        font-family: var(--display);
+        font-weight: 800;
+        line-height: 0.92;
+        font-variation-settings:
+          "wdth" 80,
+          "wght" 800;
+      }
+
+      /* ---------- En-tête ---------- */
+      .site-header {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 50;
+        border-bottom: 1px solid transparent;
+        transition:
+          background-color 0.4s,
+          border-color 0.4s;
+      }
+      .site-header.is-scrolled {
+        background: rgba(15, 18, 53, 0.78);
+        backdrop-filter: blur(14px);
+        border-bottom-color: var(--line);
+      }
+      .site-header .wrap {
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .brand img {
+        width: 2rem;
+        height: 2rem;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.75rem, 2.5vw, 2rem);
+        font-size: 0.95rem;
+      }
+      .nav a {
+        text-decoration: none;
+        color: var(--mist);
+        transition: color 0.2s;
+      }
+      .nav a:hover {
+        color: var(--paper);
+      }
+      .nav .nav-github {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.4rem 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--paper);
+        font-weight: 600;
+        transition: border-color 0.2s;
+      }
+      .nav .nav-github:hover {
+        border-color: var(--paper);
+      }
+      .nav .nav-github svg {
+        width: 1.05rem;
+        height: 1.05rem;
+      }
+      .nav .nav-cv {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--ink);
+        background: var(--signal);
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+      .nav .nav-cv:hover {
+        color: var(--ink);
+        background: #ffd66f;
+      }
+      .nav .nav-cv svg {
+        width: 0.95rem;
+        height: 0.95rem;
+      }
+
+      /* ---------- Boutons ---------- */
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.9rem 1.4rem;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition:
+          transform 0.35s var(--ease-out),
+          background-color 0.25s,
+          border-color 0.25s;
+      }
+      .btn svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        flex: none;
+      }
+      .btn-primary {
+        background: var(--signal);
+        color: var(--ink);
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        background: #ffd66f;
+      }
+      .btn-primary:hover svg {
+        animation: nudge 0.7s var(--ease-out);
+      }
+      .btn-ghost {
+        border-color: var(--line);
+        color: var(--paper);
+      }
+      .btn-ghost:hover {
+        border-color: var(--paper);
+      }
+      @keyframes nudge {
+        40% {
+          transform: translateY(3px);
+        }
+      }
+
+      /* ======================================================
+         Objets : maquettes dessinées en CSS, dimensionnées en em
+         pour qu'on puisse les agrandir ou réduire d'un coup
+         ====================================================== */
+      .obj {
+        position: relative;
+        box-shadow: var(--drop);
+        transition: translate 0.6s var(--ease-out);
+      }
+
+      /* Barre de fenêtre */
+      .win-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        height: 2.1em;
+        padding: 0 0.9em;
+        font-size: 1em;
+      }
+      .win-bar i {
+        width: 0.62em;
+        height: 0.62em;
+        border-radius: 50%;
+        background: #c9cbe3;
+      }
+      .win-url {
+        margin-left: 0.8em;
+        font-family: var(--mono);
+        font-size: 0.68em;
+        opacity: 0.7;
+        white-space: nowrap;
+      }
+
+      /* Navigateur : Boutique en ligne */
+      .obj-browser {
+        width: 30em;
+        border-radius: 0.8em;
+        background: #fbfbff;
+        color: var(--ink);
+        overflow: hidden;
+      }
+      .obj-browser .win-bar {
+        background: #e4e6f5;
+      }
+      .shop {
+        padding: 1em 1.2em 1.3em;
+      }
+      .shop-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8em;
+        margin-bottom: 0.9em;
+      }
+      .shop-nav b {
+        font-family: var(--display);
+        font-size: 1.4em;
+        font-variation-settings:
+          "wdth" 80,
+          "wght" 800;
+      }
+      .shop-cart {
+        padding: 0.25em 0.8em;
+        border-radius: 999px;
+        background: var(--ink);
+        color: var(--paper);
+        font-weight: 600;
+      }
+      .shop-hero {
+        height: 4.2em;
+        border-radius: 0.5em;
+        margin-bottom: 1em;
+        padding: 0.9em 1em;
+        background: linear-gradient(120deg, var(--indigo), #9c9bff);
+        color: #fff;
+        font-family: var(--display);
+        font-size: 1em;
+        font-variation-settings:
+          "wdth" 80,
+          "wght" 750;
+        line-height: 1.1;
+      }
+      .shop-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.8em;
+      }
+      .item-img {
+        aspect-ratio: 1 / 0.9;
+        border-radius: 0.4em;
+        background: var(--c);
+        margin-bottom: 0.45em;
+        position: relative;
+      }
+      .item-img::after {
+        content: "";
+        position: absolute;
+        inset: 28% 30%;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.55);
+      }
+      .item-line {
+        height: 0.38em;
+        width: 80%;
+        border-radius: 99px;
+        background: #d9dbee;
+        margin-bottom: 0.35em;
+      }
+      .item-price {
+        font-size: 0.72em;
+        font-weight: 700;
+      }
+
+      /* Terminal : Borne d'arcade et aventure textuelle */
+      .obj-term {
+        width: 26em;
+        border-radius: 0.8em;
+        background: #1c2062;
+        color: #d9dbff;
+        overflow: hidden;
+        box-shadow:
+          var(--drop),
+          0 0 0 1px rgba(238, 240, 250, 0.14) inset;
+      }
+      .obj-term .win-bar {
+        background: #252a78;
+        color: var(--paper);
+      }
+      .obj-term .win-bar i {
+        background: rgba(238, 240, 250, 0.3);
+      }
+      .term {
+        margin: 0;
+        padding: 1.1em 1.3em 1.4em;
+        font-family: var(--mono);
+        font-size: 0.82em;
+        line-height: 1.55;
+        white-space: pre;
+      }
+      .term-title {
+        display: inline-block;
+        margin-bottom: 0.4em;
+        padding: 0.3em 1.4em;
+        border: 3px double #8d91d6;
+        color: var(--mint);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+      }
+      .term .hl {
+        color: var(--mint);
+        font-weight: 700;
+      }
+      .term .dim {
+        color: #8d91d6;
+      }
+      .obj-term.amber {
+        background: #241d2a;
+        color: #ffd98a;
+      }
+      .obj-term.amber .win-bar {
+        background: #33293a;
+      }
+      .obj-term.amber .term {
+        white-space: pre-wrap;
+      }
+      .obj-term.amber .dim {
+        color: #b79a6a;
+      }
+      .caret {
+        display: inline-block;
+        width: 0.6em;
+        height: 1.15em;
+        vertical-align: -0.22em;
+        background: currentColor;
+        animation: blink 1.05s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Téléphone : Pronostics */
+      .obj-phone {
+        width: 12em;
+        padding: 0.5em;
+        border-radius: 1.9em;
+        background: #2a2f7a;
+        box-shadow:
+          var(--drop),
+          0 0 0 1px rgba(238, 240, 250, 0.2) inset;
+      }
+      .phone-screen {
+        height: 23em;
+        border-radius: 1.45em;
+        background: #fbfbff;
+        color: var(--ink);
+        padding: 1.4em 0.9em 0.9em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        font-size: 1em;
+        overflow: hidden;
+      }
+      .ph-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 0.2em;
+      }
+      .ph-head b {
+        font-family: var(--display);
+        font-size: 1.15em;
+        font-variation-settings:
+          "wdth" 80,
+          "wght" 800;
+      }
+      .ph-head span,
+      .ph-title {
+        font-size: 0.62em;
+        color: #5d6197;
+      }
+      .ph-title {
+        margin-top: 0.5em;
+        font-weight: 600;
+      }
+      .match {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto 1fr;
+        align-items: center;
+        gap: 0.35em;
+        padding: 0.45em 0.6em;
+        border-radius: 0.6em;
+        background: #eceefa;
+        font-size: 0.7em;
+        font-weight: 600;
+      }
+      .match span:last-child {
+        text-align: right;
+      }
+      .match b {
+        display: grid;
+        place-items: center;
+        width: 1.7em;
+        height: 1.7em;
+        border-radius: 0.35em;
+        background: #fff;
+      }
+      .match.open {
+        background: #fff3d1;
+      }
+      .match.open b {
+        border: 1.5px solid var(--signal);
+        color: #b07d00;
+      }
+      .match i {
+        font-style: normal;
+        color: #8d91c4;
+      }
+      .rank {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 0.68em;
+      }
+      .rank li {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.35em 0.2em;
+        border-bottom: 1px solid #e6e8f6;
+      }
+      .rank li.me {
+        color: var(--indigo);
+        font-weight: 700;
+      }
+      .ph-btn {
+        margin-top: auto;
+        padding: 0.65em;
+        border-radius: 999px;
+        background: var(--indigo);
+        color: #fff;
+        text-align: center;
+        font-size: 0.68em;
+        font-weight: 700;
+      }
+
+      /* Feuille de CV */
+      .obj-sheet {
+        display: block;
+        width: 18em;
+        aspect-ratio: 1 / 1.414;
+        border-radius: 0.3em;
+        background: var(--paper);
+        color: var(--ink);
+        padding: 9% 10%;
+        text-decoration: none;
+        box-shadow:
+          var(--drop),
+          0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+      }
+      .sheet-name {
+        font-family: var(--display);
+        font-weight: 800;
+        font-size: 1.65em;
+        line-height: 0.95;
+        font-variation-settings:
+          "wdth" 75,
+          "wght" 800;
+        margin-bottom: 0.25em;
+      }
+      .sheet-role {
+        font-size: 0.68em;
+        color: #4b4f80;
+        margin-bottom: 1.6em;
+      }
+      .sheet-bar {
+        height: 0.36em;
+        border-radius: 99px;
+        background: #d4d7ec;
+        margin-bottom: 0.46em;
+      }
+      .sheet-bar.accent {
+        background: var(--indigo);
+        width: 30%;
+        margin-top: 1.1em;
+        margin-bottom: 0.7em;
+      }
+      .sheet-badge {
+        position: absolute;
+        right: -0.75em;
+        bottom: 1.2em;
+        background: var(--signal);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 0.72em;
+        padding: 0.35em 0.85em;
+        border-radius: 999px;
+        transform: rotate(-6deg);
+      }
+
+      /* ---------- Accueil ---------- */
+      .hero {
+        min-height: 88svh;
+        display: flex;
+        align-items: center;
+        padding: 6rem 0 1.5rem;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        align-items: center;
+        gap: 2rem clamp(2rem, 5vw, 5rem);
+      }
+      .hero-text {
+        container-type: inline-size;
+      }
+      /* « Rodrigues » mesure environ 4,7 fois la taille de police : 19cqw remplit ~90 % de la colonne */
+      .hero-name {
+        font-size: 19cqw;
+        margin-bottom: 1.6rem;
+      }
+      .hero-name .line {
+        display: block;
+        overflow: hidden;
+        padding-bottom: 0.24em;
+        margin-bottom: -0.24em;
+      }
+      .hero-name .line-inner {
+        display: inline-block;
+        white-space: nowrap;
+      }
+      .hero-intro {
+        margin: 0 0 2.2rem;
+        max-width: 36ch;
+        font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+        line-height: 1.5;
+        color: var(--mist);
+      }
+      .hero-intro strong {
+        color: var(--paper);
+        font-weight: 600;
+      }
+
+      /* Le bureau en 3D */
+      .stage {
+        position: relative;
+        aspect-ratio: 1 / 0.84;
+        container-type: inline-size;
+        perspective: 1800px;
+      }
+      .stage-inner {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+      }
+      .stage .obj {
+        position: absolute;
+        font-size: calc(100cqw / 46);
+      }
+      .stage .obj-sheet {
+        font-size: calc(100cqw / 55);
+      }
+      .stage .s-browser {
+        left: 0;
+        top: 6%;
+        rotate: -5deg;
+      }
+      .stage .s-term {
+        left: 42%;
+        top: 0;
+        rotate: 4deg;
+      }
+      .stage .s-sheet {
+        left: 9%;
+        top: 44%;
+        rotate: -9deg;
+      }
+      .stage .s-phone {
+        left: 70%;
+        top: 30%;
+        rotate: 7deg;
+      }
+
+      /* ---------- Projets ---------- */
+      .projects {
+        padding: clamp(2.5rem, 6vh, 4rem) 0 clamp(3rem, 8vh, 5rem);
+      }
+      .section-head {
+        margin-bottom: clamp(3rem, 7vh, 5rem);
+      }
+      .section-head h2 {
+        font-size: clamp(2.6rem, 6vw, 5.5rem);
+        margin-bottom: 0.8rem;
+      }
+      .count {
+        margin: 0;
+        color: var(--mist);
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.9rem 1.5rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--line);
+      }
+      .search {
+        position: relative;
+        flex: 0 1 22rem;
+        min-width: min(100%, 16rem);
+      }
+      .search svg {
+        position: absolute;
+        left: 1.1rem;
+        top: 50%;
+        width: 1.1rem;
+        height: 1.1rem;
+        transform: translateY(-50%);
+        color: var(--mist);
+        pointer-events: none;
+      }
+      .search input {
+        width: 100%;
+        padding: 0.8rem 1.1rem 0.8rem 2.9rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--ink-raised);
+        color: var(--paper);
+        font: inherit;
+        transition: border-color 0.2s;
+      }
+      .search input::placeholder {
+        color: var(--mist);
+      }
+      .search input:focus {
+        outline: none;
+        border-color: var(--indigo);
+      }
+      .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .filter {
+        font: inherit;
+        font-size: 0.92rem;
+        padding: 0.42rem 0.95rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--mist);
+        cursor: pointer;
+        transition:
+          background-color 0.25s,
+          color 0.25s,
+          border-color 0.25s;
+      }
+      .filter:hover {
+        color: var(--paper);
+        border-color: rgba(238, 240, 250, 0.35);
+      }
+      .filter[aria-pressed="true"] {
+        background: var(--paper);
+        border-color: var(--paper);
+        color: var(--ink);
+      }
+      .filter-sep {
+        width: 1px;
+        height: 1.4rem;
+        background: var(--line);
+        margin: 0 0.4rem;
+      }
+
+      .project-list {
+        display: grid;
+        gap: clamp(4rem, 12vh, 8rem);
+      }
+      .project {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 2rem clamp(2rem, 6vw, 6rem);
+      }
+      .project.is-alt .shot {
+        order: 2;
+      }
+      .shot {
+        container-type: inline-size;
+        perspective: 1400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: clamp(1.5rem, 4vw, 3.5rem);
+        border-radius: 2rem;
+        background: radial-gradient(
+            circle at 50% 45%,
+            rgba(109, 107, 255, 0.22),
+            transparent 68%
+          ),
+          var(--ink-raised);
+        border: 1px solid var(--line);
+      }
+      .shot .obj {
+        font-size: calc(100cqw / 31);
+      }
+      .shot .obj-browser {
+        font-size: calc(100cqw / 32);
+      }
+      .shot .obj-term {
+        font-size: calc(100cqw / 28);
+      }
+      .shot .obj-phone {
+        font-size: calc(100cqw / 30);
+      }
+      .project:hover .obj,
+      .project:focus-within .obj {
+        translate: 0 -10px;
+      }
+      .project h3 {
+        font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+        margin-bottom: 1rem;
+      }
+      .project-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.3rem;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.85rem;
+        padding: 0.2rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--mist);
+      }
+      .status::before {
+        content: "";
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .status-completed {
+        color: var(--mint);
+        border-color: rgba(142, 230, 180, 0.3);
+      }
+      .status-development {
+        color: var(--signal);
+        border-color: rgba(255, 201, 74, 0.35);
+      }
+      .status-development::before {
+        animation: pulse 1.8s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.25;
+        }
+      }
+      .project-text p {
+        margin: 0 0 1.2rem;
+        max-width: 46ch;
+        color: var(--mist);
+        font-size: 1.1rem;
+      }
+      .tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1.2rem;
+        margin: 0 0 1.6rem;
+        padding: 0;
+        list-style: none;
+        color: var(--paper);
+      }
+      .project-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+      .link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.1rem;
+        border-radius: 999px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid var(--line);
+        transition:
+          background-color 0.25s,
+          border-color 0.25s;
+      }
+      .link svg {
+        width: 1rem;
+        height: 1rem;
+        transition: transform 0.35s var(--ease-out);
+      }
+      .link:hover {
+        border-color: var(--paper);
+      }
+      .link:hover svg.arrow {
+        transform: translate(2px, -2px);
+      }
+      .link-site {
+        background: var(--indigo);
+        border-color: var(--indigo);
+      }
+      .link-site:hover {
+        background: #7f7dff;
+        border-color: #7f7dff;
+      }
+
+      .no-results {
+        padding: 4rem 0;
+        text-align: center;
+        color: var(--mist);
+      }
+      .no-results strong {
+        display: block;
+        font-family: var(--display);
+        font-size: 1.6rem;
+        color: var(--paper);
+        margin-bottom: 0.3rem;
+      }
+      .no-results button {
+        margin-top: 1.2rem;
+      }
+
+      /* ---------- CV ---------- */
+      .cv {
+        padding: clamp(5rem, 12vh, 8rem) 0 clamp(5rem, 12vh, 9rem);
+      }
+      .cv-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+        align-items: center;
+        gap: 3rem clamp(2rem, 6vw, 6rem);
+      }
+      .cv h2 {
+        font-size: clamp(2.6rem, 6vw, 5.5rem);
+        margin-bottom: 1.25rem;
+      }
+      .cv p {
+        margin: 0 0 2rem;
+        max-width: 44ch;
+        color: var(--mist);
+        font-size: 1.15rem;
+      }
+      .sheet-stage {
+        perspective: 1400px;
+        display: flex;
+        justify-content: center;
+      }
+      .cv .obj-sheet {
+        font-size: 1.2rem;
+      }
+      .cv .obj-sheet:hover {
+        translate: 0 -8px;
+      }
+
+      /* ---------- Pied de page ---------- */
+      .site-footer {
+        border-top: 1px solid var(--line);
+        padding: 1.5rem 0;
+        font-size: 0.9rem;
+        color: var(--mist);
+      }
+      .site-footer .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.5rem 2rem;
+      }
+      .site-footer p {
+        margin: 0;
+      }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 900px) {
+        .hero {
+          min-height: auto;
+          padding-top: 6.5rem;
+        }
+        .hero-grid,
+        .project,
+        .cv-grid {
+          grid-template-columns: 1fr;
+        }
+        .project.is-alt .shot {
+          order: 0;
+        }
+        .sheet-stage {
+          order: -1;
+        }
+        .cv .obj-sheet {
+          font-size: 0.85rem;
+        }
+      }
+      @media (max-width: 560px) {
+        .nav .nav-github span,
+        .brand span,
+        .filter-sep {
+          display: none;
+        }
+        .hero .actions,
+        .hero .actions .btn {
+          width: 100%;
+          justify-content: center;
+        }
+        .shot {
+          border-radius: 1.4rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition-duration: 0.01ms !important;
+        }
       }
     </style>
   </head>
 
-  <body
-    class="min-h-screen flex flex-col selection:bg-brand-500 selection:text-white"
-  >
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-50 glass-card border-b border-gray-800/80">
-      <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between"
-      >
-        <div class="flex items-center gap-3">
-          <a href="#" class="flex items-center">
-            <img
-              src="images/logo-site-icon.svg"
-              alt="Antony Rodrigues"
-              class="h-9 w-9"
-            />
-          </a>
-          <a
-            href="#"
-            class="text-sm sm:text-base font-semibold text-white hover:text-brand-400 transition"
-          >
-            Antony Rodrigues - Projets
-          </a>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <a
-            href="https://github.com/AntoooVVE"
-            target="_blank"
-            rel="noopener"
-            class="flex items-center gap-2 text-xs font-medium text-gray-300 hover:text-white bg-gray-800/80 hover:bg-gray-700/80 px-3 py-1.5 rounded-lg border border-gray-700/60 transition"
-          >
-            <svg
-              class="w-4 h-4 fill-current"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
-              />
-            </svg>
+  <body>
+    <!-- En-tête -->
+    <header class="site-header" id="siteHeader">
+      <div class="wrap">
+        <a href="#top" class="brand" data-scroll>
+          <img src="images/logo-site-icon.svg" alt="" width="32" height="32" />
+          <span>Antony Rodrigues</span>
+        </a>
+        <nav class="nav" aria-label="Navigation principale">
+          <a href="https://github.com/AntoooVVE" target="_blank" rel="noopener" class="nav-github" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
             <span>GitHub</span>
           </a>
-        </div>
+          <a href="cv/CV-Antony-Rodrigues.pdf" download="CV-Antony-Rodrigues.pdf" class="nav-cv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></svg>
+            Télécharger mon CV
+          </a>
+        </nav>
       </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-3">
-      <!-- Controls: Search and project filters -->
-      <div class="mb-5 space-y-3">
-        <div class="relative w-full">
-          <i
-            data-lucide="search"
-            class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
-          ></i>
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Rechercher un projet..."
-            class="w-full pl-10 pr-4 py-2.5 bg-gray-900/90 border border-gray-800 rounded-xl text-xs sm:text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition"
-          />
+    <main id="top">
+      <!-- Accueil -->
+      <section class="hero" aria-labelledby="heroName">
+        <div class="wrap hero-grid">
+          <div class="hero-text">
+            <h1 class="display hero-name" id="heroName" aria-label="Antony Rodrigues">
+              <span class="line" aria-hidden="true"><span class="line-inner">Antony</span></span>
+              <span class="line" aria-hidden="true"><span class="line-inner">Rodrigues</span></span>
+            </h1>
+            <p class="hero-intro" data-intro>
+              En formation à l'ESGI Grenoble, vous pouvez retrouver sur mon site, mes projets réalisés dans le cadre de ma formation et mes projets personnels.
+            </p>
+            <div class="actions" data-intro>
+              <a href="#projets" class="btn btn-primary" data-scroll>Voir les projets</a>
+            </div>
+          </div>
+
+          <!-- Bureau : un objet par projet, plus le CV -->
+          <div class="stage" aria-hidden="true">
+            <div class="stage-inner">
+              <div class="obj obj-browser s-browser" data-z="0">
+                <div class="win-bar"><i></i><i></i><i></i><span class="win-url">antonyrodrigues.fr/Boutique</span></div>
+                <div class="shop">
+                  <div class="shop-nav"><b>Boutique</b><span class="shop-cart">Panier (2)</span></div>
+                  <div class="shop-hero">Nouvelle<br />collection</div>
+                  <div class="shop-grid">
+                    <div><div class="item-img" style="--c: #cfceff"></div><div class="item-line"></div><div class="item-price">29 €</div></div>
+                    <div><div class="item-img" style="--c: #ffe3a3"></div><div class="item-line"></div><div class="item-price">45 €</div></div>
+                    <div><div class="item-img" style="--c: #c4f0d8"></div><div class="item-line"></div><div class="item-price">19 €</div></div>
+                    <div><div class="item-img" style="--c: #ffd0c9"></div><div class="item-line"></div><div class="item-price">62 €</div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="obj obj-term s-term" data-z="50">
+                <div class="win-bar"><i></i><i></i><i></i><span class="win-url">python borne.py</span></div>
+<pre class="term"><span class="term-title">BORNE D'ARCADE</span>
+
+  <span class="hl">▶ Jouer</span>
+    Meilleurs scores
+    Quitter
+
+  Ton choix : <span class="caret"></span></pre>
+              </div>
+
+              <div class="obj obj-sheet s-sheet" data-z="100">
+                <div class="sheet-name">Antony<br />Rodrigues</div>
+                <div class="sheet-role">En formation à l'ESGI Grenoble</div>
+                <div class="sheet-bar" style="width: 92%"></div>
+                <div class="sheet-bar" style="width: 78%"></div>
+                <div class="sheet-bar" style="width: 85%"></div>
+                <div class="sheet-bar accent"></div>
+                <div class="sheet-bar" style="width: 88%"></div>
+                <div class="sheet-bar" style="width: 64%"></div>
+                <div class="sheet-bar accent"></div>
+                <div class="sheet-bar" style="width: 70%"></div>
+                <span class="sheet-badge">PDF</span>
+              </div>
+
+              <div class="obj obj-phone s-phone" data-z="150">
+                <div class="phone-screen">
+                  <div class="ph-head"><b>Pronostics</b><span>Journée 3</span></div>
+                  <div class="match"><span>FRA</span><b>2</b><i>–</i><b>1</b><span>ESP</span></div>
+                  <div class="match"><span>BRA</span><b>0</b><i>–</i><b>0</b><span>ARG</span></div>
+                  <div class="match open"><span>ALL</span><b>?</b><i>–</i><b>?</b><span>POR</span></div>
+                  <div class="ph-title">Classement</div>
+                  <ol class="rank">
+                    <li><span>Léa</span><b>42 pts</b></li>
+                    <li class="me"><span>Toi</span><b>39 pts</b></li>
+                    <li><span>Karim</span><b>35 pts</b></li>
+                  </ol>
+                  <div class="ph-btn">Valider mes pronos</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div
-          class="flex flex-wrap items-center gap-2"
-          id="categoryFilters"
-          role="group"
-          aria-label="Filtrer les projets par catégorie"
-        >
-          <button
-            type="button"
-            data-category-filter="all"
-            aria-pressed="true"
-            class="category-filter rounded-lg border border-brand-500 bg-brand-600 px-3 py-1.5 text-xs font-medium text-white transition"
-          >
-            Tous les projets
-          </button>
-          <button
-            type="button"
-            data-category-filter="formation"
-            aria-pressed="false"
-            class="category-filter rounded-lg border border-gray-700 bg-gray-800/80 px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-gray-700"
-          >
-            Formation
-          </button>
-          <button
-            type="button"
-            data-category-filter="perso"
-            aria-pressed="false"
-            class="category-filter rounded-lg border border-gray-700 bg-gray-800/80 px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-gray-700"
-          >
-            Personnel
-          </button>
+      </section>
+
+      <!-- Projets -->
+      <section class="projects" id="projets" aria-labelledby="projectsTitle">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <h2 class="display" id="projectsTitle">Projets</h2>
+              <p class="count" id="projectCount" aria-live="polite">4 projets affichés</p>
+            </div>
+            <div class="controls">
+              <label class="search">
+                <span class="sr-only">Rechercher un projet</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+                <input type="search" id="searchInput" placeholder="Rechercher un projet" autocomplete="off" />
+              </label>
+              <div class="filter-row">
+                <div class="filter-row" role="group" aria-label="Filtrer les projets par catégorie">
+                  <button type="button" class="filter category-filter" data-category-filter="all" aria-pressed="true">Tous</button>
+                  <button type="button" class="filter category-filter" data-category-filter="formation" aria-pressed="false">Formation</button>
+                  <button type="button" class="filter category-filter" data-category-filter="perso" aria-pressed="false">Personnel</button>
+                </div>
+                <span class="filter-sep" aria-hidden="true"></span>
+                <div class="filter-row" role="group" aria-label="Filtrer les projets par état">
+                  <button type="button" class="filter status-filter" data-status-filter="all" aria-pressed="true">Tous les états</button>
+                  <button type="button" class="filter status-filter" data-status-filter="completed" aria-pressed="false">Terminés</button>
+                  <button type="button" class="filter status-filter" data-status-filter="development" aria-pressed="false">En développement</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-list" id="projectsGrid">
+            <!-- Boutique en Ligne -->
+            <article class="project project-card" data-category="formation" data-status="development">
+              <div class="shot" aria-hidden="true">
+                <div class="obj obj-browser">
+                  <div class="win-bar"><i></i><i></i><i></i><span class="win-url">antonyrodrigues.fr/Boutique</span></div>
+                  <div class="shop">
+                    <div class="shop-nav"><b>Boutique</b><span class="shop-cart">Panier (2)</span></div>
+                    <div class="shop-hero">Nouvelle<br />collection</div>
+                    <div class="shop-grid">
+                      <div><div class="item-img" style="--c: #cfceff"></div><div class="item-line"></div><div class="item-price">29 €</div></div>
+                      <div><div class="item-img" style="--c: #ffe3a3"></div><div class="item-line"></div><div class="item-price">45 €</div></div>
+                      <div><div class="item-img" style="--c: #c4f0d8"></div><div class="item-line"></div><div class="item-price">19 €</div></div>
+                      <div><div class="item-img" style="--c: #ffd0c9"></div><div class="item-line"></div><div class="item-price">62 €</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="project-text">
+                <h3 class="display">Boutique en Ligne</h3>
+                <div class="project-meta">
+                  <span class="tag status status-development">En développement</span>
+                  <span class="tag">Projet de formation</span>
+                </div>
+                <p>Développement d'une boutique en ligne complète.</p>
+                <ul class="tech"><li>HTML/CSS</li></ul>
+                <div class="project-links">
+                  <a href="https://portfolio.antonyrodrigues.fr/Boutique" target="_blank" rel="noopener" class="link link-site">
+                    Voir le site
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7" /><path d="M8 7h9v9" /></svg>
+                  </a>
+                  <a href="https://github.com/AntoooVVE/Boutique" target="_blank" rel="noopener" class="link">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
+                    Code source
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Borne d'Arcade -->
+            <article class="project project-card" data-category="formation" data-status="completed">
+              <div class="shot" aria-hidden="true">
+                <div class="obj obj-term">
+                  <div class="win-bar"><i></i><i></i><i></i><span class="win-url">python borne.py</span></div>
+<pre class="term"><span class="term-title">BORNE D'ARCADE</span>
+
+  <span class="hl">▶ Jouer</span>
+    Meilleurs scores
+    Quitter
+
+  Ton choix : <span class="caret"></span></pre>
+                </div>
+              </div>
+              <div class="project-text">
+                <h3 class="display">Borne d'Arcade</h3>
+                <div class="project-meta">
+                  <span class="tag status status-completed">Terminé</span>
+                  <span class="tag">Projet de formation</span>
+                </div>
+                <p>
+                  Développement d'une borne d'arcade permettant de jouer à
+                  différents mini-jeux depuis le terminal.
+                </p>
+                <ul class="tech"><li>Python</li></ul>
+                <div class="project-links">
+                  <a href="https://github.com/Antooo-Portfolio/Borne-d-Arcade" target="_blank" rel="noopener" class="link">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
+                    Code source
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Aventure Textuelle -->
+            <article class="project project-card" data-category="formation" data-status="development">
+              <div class="shot" aria-hidden="true">
+                <div class="obj obj-term amber">
+                  <div class="win-bar"><i></i><i></i><i></i><span class="win-url">python aventure.py</span></div>
+<pre class="term">Tu te tiens devant l'entrée d'une grotte. Un vent froid s'en échappe. Une lanterne est posée sur un rocher.
+
+<span class="dim">&gt;</span> prendre lanterne
+Pris.
+
+<span class="dim">&gt;</span> entrer <span class="caret"></span></pre>
+                </div>
+              </div>
+              <div class="project-text">
+                <h3 class="display">Aventure Textuelle</h3>
+                <div class="project-meta">
+                  <span class="tag status status-development">En développement</span>
+                  <span class="tag">Projet de formation</span>
+                </div>
+                <p>
+                  Développement d'un moteur de jeu d'aventure textuelle, dans
+                  l'esprit des premiers jeux d'aventure (Colossal Cave
+                  Adventure, Zork).
+                </p>
+                <ul class="tech"><li>Python</li></ul>
+                <div class="project-links">
+                  <a href="https://github.com/Antooo-Portfolio/Aventure-Textuelle" target="_blank" rel="noopener" class="link">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
+                    Code source
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Pronostics Compétition -->
+            <article class="project project-card" data-category="perso" data-status="completed">
+              <div class="shot" aria-hidden="true">
+                <div class="obj obj-phone">
+                  <div class="phone-screen">
+                    <div class="ph-head"><b>Pronostics</b><span>Journée 3</span></div>
+                    <div class="match"><span>FRA</span><b>2</b><i>–</i><b>1</b><span>ESP</span></div>
+                    <div class="match"><span>BRA</span><b>0</b><i>–</i><b>0</b><span>ARG</span></div>
+                    <div class="match open"><span>ALL</span><b>?</b><i>–</i><b>?</b><span>POR</span></div>
+                    <div class="ph-title">Classement</div>
+                    <ol class="rank">
+                      <li><span>Léa</span><b>42 pts</b></li>
+                      <li class="me"><span>Toi</span><b>39 pts</b></li>
+                      <li><span>Karim</span><b>35 pts</b></li>
+                    </ol>
+                    <div class="ph-btn">Valider mes pronos</div>
+                  </div>
+                </div>
+              </div>
+              <div class="project-text">
+                <h3 class="display">Pronostics Compétition</h3>
+                <div class="project-meta">
+                  <span class="tag status status-completed">Terminé</span>
+                  <span class="tag">Projet personnel</span>
+                </div>
+                <p>
+                  Développement d'une application web permettant à un groupe
+                  (entreprise, amis...) de réaliser des pronostics sur une
+                  compétition de football.
+                </p>
+                <ul class="tech"><li>JavaScript</li><li>HTML/CSS</li></ul>
+                <div class="project-links">
+                  <a href="https://portfolio.antonyrodrigues.fr/Pronostics-Competition" target="_blank" rel="noopener" class="link link-site">
+                    Voir le site
+                    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7" /><path d="M8 7h9v9" /></svg>
+                  </a>
+                  <a href="https://github.com/Antooo-Portfolio/Pronostics-Competition" target="_blank" rel="noopener" class="link">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" /></svg>
+                    Code source
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- Aucun résultat -->
+          <div class="no-results" id="noResults" hidden>
+            <strong>Aucun projet trouvé</strong>
+            Essayez un autre mot-clé ou modifiez les filtres.
+            <div>
+              <button type="button" class="filter" id="resetFilters">Réinitialiser les filtres</button>
+            </div>
+          </div>
         </div>
-        <div
-          class="flex flex-wrap items-center gap-2"
-          id="statusFilters"
-          role="group"
-          aria-label="Filtrer les projets par état"
-        >
-          <button
-            type="button"
-            data-status-filter="all"
-            aria-pressed="true"
-            class="status-filter rounded-lg border border-brand-500 bg-brand-600 px-3 py-1.5 text-xs font-medium text-white transition"
-          >
-            Tous les états
-          </button>
-          <button
-            type="button"
-            data-status-filter="completed"
-            aria-pressed="false"
-            class="status-filter rounded-lg border border-gray-700 bg-gray-800/80 px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-gray-700"
-          >
-            Terminés
-          </button>
-          <button
-            type="button"
-            data-status-filter="development"
-            aria-pressed="false"
-            class="status-filter rounded-lg border border-gray-700 bg-gray-800/80 px-3 py-1.5 text-xs font-medium text-gray-300 transition hover:bg-gray-700"
-          >
-            En développement
-          </button>
+      </section>
+
+      <!-- CV -->
+      <section class="cv" id="cv" aria-labelledby="cvTitle">
+        <div class="wrap cv-grid">
+          <div>
+            <h2 class="display" id="cvTitle">Mon parcours tient sur une page</h2>
+            <p>
+              Formation, compétences et projets réunis dans un PDF, prêt à être
+              imprimé ou joint à une candidature.
+            </p>
+            <div class="actions">
+              <a href="cv/CV-Antony-Rodrigues.pdf" download="CV-Antony-Rodrigues.pdf" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></svg>
+                Télécharger le CV (PDF)
+              </a>
+              <a href="cv/CV-Antony-Rodrigues.pdf" target="_blank" rel="noopener" class="btn btn-ghost">Ouvrir dans un onglet</a>
+            </div>
+          </div>
+
+          <div class="sheet-stage">
+            <a
+              href="cv/CV-Antony-Rodrigues.pdf"
+              download="CV-Antony-Rodrigues.pdf"
+              class="obj obj-sheet"
+              id="cvSheet"
+              aria-label="Télécharger le CV d'Antony Rodrigues en PDF"
+            >
+              <div class="sheet-name">Antony<br />Rodrigues</div>
+              <div class="sheet-role">En formation à l'ESGI Grenoble</div>
+              <div class="sheet-bar" style="width: 92%"></div>
+              <div class="sheet-bar" style="width: 78%"></div>
+              <div class="sheet-bar" style="width: 85%"></div>
+              <div class="sheet-bar accent"></div>
+              <div class="sheet-bar" style="width: 88%"></div>
+              <div class="sheet-bar" style="width: 64%"></div>
+              <div class="sheet-bar" style="width: 80%"></div>
+              <div class="sheet-bar accent"></div>
+              <div class="sheet-bar" style="width: 70%"></div>
+              <div class="sheet-bar" style="width: 90%"></div>
+              <span class="sheet-badge">PDF</span>
+            </a>
+          </div>
         </div>
-      </div>
-
-      <!-- Projects Grid -->
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-        id="projectsGrid"
-      >
-        <!-- Card 1: Boutique en Ligne -->
-        <article
-          class="project-card group glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
-          data-category="formation"
-          data-status="development"
-        >
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span
-                class="inline-flex items-center gap-1.5 text-[11px] font-medium text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                En développement
-              </span>
-              <span class="text-xs text-gray-500 font-mono">Dépôt Public</span>
-            </div>
-
-            <h2
-              class="text-lg font-bold text-white mb-1.5 group-hover:text-brand-400 transition"
-            >
-              Boutique en Ligne
-            </h2>
-            <span
-              class="inline-flex mb-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-0.5 text-[10px] font-medium text-sky-300"
-            >
-              Projet Formation
-            </span>
-            <p
-              class="text-xs sm:text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed"
-            >
-              Développement d'une boutique en ligne complète.
-            </p>
-          </div>
-
-          <div>
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span
-                class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-500/10 text-orange-400 border border-orange-500/20"
-              >
-                HTML/CSS
-              </span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-gray-800">
-              <a
-                href="https://portfolio.antonyrodrigues.fr/Boutique"
-                target="_blank"
-                rel="noopener"
-                class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white transition shadow-md shadow-brand-600/20"
-              >
-                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                Voir le site
-              </a>
-              <a
-                href="https://github.com/AntoooVVE/Boutique"
-                target="_blank"
-                rel="noopener"
-                class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition"
-              >
-                <svg
-                  class="w-4 h-4 fill-current"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
-                  />
-                </svg>
-                Code source
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 2: Borne d'Aracade -->
-        <article
-          class="project-card group glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
-          data-category="formation"
-          data-status="completed"
-        >
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span
-                class="inline-flex items-center gap-1.5 text-[11px] font-medium text-green-400 bg-green-400/10 px-2.5 py-0.5 rounded-full border border-green-400/20"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                Terminé
-              </span>
-              <span class="text-xs text-gray-500 font-mono">Dépôt Public</span>
-            </div>
-
-            <h2
-              class="text-lg font-bold text-white mb-1.5 group-hover:text-brand-400 transition"
-            >
-              Borne d'Arcade
-            </h2>
-            <span
-              class="inline-flex mb-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-0.5 text-[10px] font-medium text-sky-300"
-            >
-              Projet Formation
-            </span>
-            <p
-              class="text-xs sm:text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed"
-            >
-              Développement d'une borne d'arcade permettant de jouer à
-              différents mini-jeux depuis le terminal.
-            </p>
-          </div>
-
-          <div>
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span
-                class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-500/10 text-orange-400 border border-orange-500/20"
-              >
-                Python
-              </span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-gray-800">
-              <a
-                href="https://github.com/Antooo-Portfolio/Borne-d-Arcade"
-                target="_blank"
-                rel="noopener"
-                class="col-span-2 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition"
-              >
-                <svg
-                  class="w-4 h-4 fill-current"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
-                  />
-                </svg>
-                Code source
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 3: Aventure Textuelle -->
-        <article
-          class="project-card group glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
-          data-category="formation"
-          data-status="development"
-        >
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span
-                class="inline-flex items-center gap-1.5 text-[11px] font-medium text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                En développement
-              </span>
-              <span class="text-xs text-gray-500 font-mono">Dépôt Public</span>
-            </div>
-
-            <h2
-              class="text-lg font-bold text-white mb-1.5 group-hover:text-brand-400 transition"
-            >
-              Aventure Textuelle
-            </h2>
-            <span
-              class="inline-flex mb-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-0.5 text-[10px] font-medium text-sky-300"
-            >
-              Projet Formation
-            </span>
-            <p
-              class="text-xs sm:text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed"
-            >
-              Développement d'un moteur de jeu d'aventure textuelle, dans
-              l'esprit des premiers jeux d'aventure (Colossal Cave Adventure,
-              Zork).
-            </p>
-          </div>
-
-          <div>
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span
-                class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-500/10 text-orange-400 border border-orange-500/20"
-              >
-                Python
-              </span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-gray-800">
-              <a
-                href="https://github.com/Antooo-Portfolio/Aventure-Textuelle"
-                target="_blank"
-                rel="noopener"
-                class="col-span-2 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition"
-              >
-                <svg
-                  class="w-4 h-4 fill-current"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
-                  />
-                </svg>
-                Code source
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 4: Pronostics Compétition -->
-        <article
-          class="project-card group glass-card rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
-          data-category="perso"
-          data-status="completed"
-        >
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span
-                class="inline-flex items-center gap-1.5 text-[11px] font-medium text-green-400 bg-green-400/10 px-2.5 py-0.5 rounded-full border border-green-400/20"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                Terminé
-              </span>
-              <span class="text-xs text-gray-500 font-mono">Dépôt Public</span>
-            </div>
-
-            <h2
-              class="text-lg font-bold text-white mb-1.5 group-hover:text-brand-400 transition"
-            >
-              Pronostics Compétition
-            </h2>
-            <span
-              class="inline-flex mb-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-0.5 text-[10px] font-medium text-sky-300"
-            >
-              Projet Personnel
-            </span>
-            <p
-              class="text-xs sm:text-sm text-gray-400 mb-4 line-clamp-3 leading-relaxed"
-            >
-              Développement d'une application web permettant à un groupe (entreprise, amis...) de réaliser des pronostics sur une compétition de football
-            </p>
-          </div>
-
-          <div>
-            <!-- Tech Pills -->
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span
-                class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-500/10 text-orange-400 border border-orange-500/20"
-              >
-                JavaScript
-              </span>
-              <span
-                class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-500/10 text-orange-400 border border-orange-500/20"
-              >
-                HTML/CSS
-              </span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-gray-800">
-              <a
-                href="https://portfolio.antonyrodrigues.fr/Pronostics-Competition"
-                target="_blank"
-                rel="noopener"
-                class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold bg-brand-600 hover:bg-brand-500 text-white transition shadow-md shadow-brand-600/20"
-              >
-                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                Voir le site
-              </a>
-              <a
-                href="https://github.com/Antooo-Portfolio/Pronostics-Competition"
-                target="_blank"
-                rel="noopener"
-                class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition"
-              >
-                <svg
-                  class="w-4 h-4 fill-current"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
-                  />
-                </svg>
-                Code source
-              </a>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <!-- No Results Fallback -->
-      <div id="noResults" class="hidden py-12 text-center">
-        <i
-          data-lucide="folder-open"
-          class="w-10 h-10 mx-auto text-gray-600 mb-2"
-        ></i>
-        <h3 class="text-sm font-semibold text-gray-300">Aucun projet trouvé</h3>
-        <p class="text-xs text-gray-500 mt-1">
-          Essayez un autre mot-clé ou modifiez les filtres de catégorie et
-          d’état.
-        </p>
-      </div>
+      </section>
     </main>
 
-    <!-- Footer -->
-    <footer
-      class="mt-auto border-t border-gray-800/60 bg-gray-950/60 py-4 text-center text-xs text-gray-500"
-    >
-      <div
-        class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3"
-      >
-        <p>© 2026 Antony Rodrigues — Hébergé via GitHub Pages & OVHcloud DNS</p>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>© 2026 Antony Rodrigues</p>
+        <p>Hébergé via GitHub Pages et OVHcloud DNS</p>
       </div>
     </footer>
 
-    <!-- Interactive Search Script -->
-    <script>
-      lucide.createIcons();
+    <!-- Animation : GSAP + ScrollTrigger, défilement fluide : Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
+    <!-- Filtres et recherche -->
+    <script>
       const searchInput = document.getElementById("searchInput");
       const projectCards = document.querySelectorAll(".project-card");
       const noResults = document.getElementById("noResults");
+      const projectCount = document.getElementById("projectCount");
       const categoryFilters = document.querySelectorAll(".category-filter");
       const statusFilters = document.querySelectorAll(".status-filter");
       let activeCategory = "all";
@@ -538,43 +1398,58 @@
 
       sortedProjectCards.forEach((card) => projectsGrid.append(card));
 
+      // Une ligne sur deux affiche sa maquette à droite
+      function alternateRows() {
+        let index = 0;
+        sortedProjectCards.forEach((card) => {
+          if (card.hidden) return;
+          card.classList.toggle("is-alt", index % 2 === 1);
+          index++;
+        });
+      }
+      alternateRows();
+
       function filterProjects() {
         const searchQuery = searchInput.value.toLowerCase().trim();
+        const revealed = [];
         let visibleCount = 0;
 
         projectCards.forEach((card) => {
-          const title = card.querySelector("h2").textContent.toLowerCase();
-          const description = card.querySelector("p").textContent.toLowerCase();
-
-          const matchesSearch =
-            title.includes(searchQuery) || description.includes(searchQuery);
+          const haystack = card.querySelector(".project-text").textContent.toLowerCase();
+          const matchesSearch = haystack.includes(searchQuery);
           const matchesCategory =
             activeCategory === "all" ||
             card.dataset.category === activeCategory;
           const matchesStatus =
             activeStatus === "all" || card.dataset.status === activeStatus;
+          const visible = matchesSearch && matchesCategory && matchesStatus;
 
-          if (matchesSearch && matchesCategory && matchesStatus) {
-            card.style.display = "flex";
-            visibleCount++;
-          } else {
-            card.style.display = "none";
-          }
+          if (visible && card.hidden) revealed.push(card);
+          card.hidden = !visible;
+          if (visible) visibleCount++;
         });
 
-        noResults.classList.toggle("hidden", visibleCount > 0);
+        alternateRows();
+        noResults.hidden = visibleCount > 0;
+        projectCount.textContent =
+          visibleCount === 1
+            ? "1 projet affiché"
+            : `${visibleCount} projets affichés`;
+
+        // Seuls les projets qui réapparaissent sont animés, le reste se met à jour instantanément
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
+        if (window.gsap && revealed.length) {
+          gsap.fromTo(
+            revealed,
+            { opacity: 0, y: 24 },
+            { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.05, overwrite: true },
+          );
+        }
       }
 
       function updateActiveFilter(button, filters) {
         filters.forEach((filter) => {
-          const isActive = filter === button;
-          filter.setAttribute("aria-pressed", String(isActive));
-          filter.classList.toggle("border-brand-500", isActive);
-          filter.classList.toggle("bg-brand-600", isActive);
-          filter.classList.toggle("text-white", isActive);
-          filter.classList.toggle("border-gray-700", !isActive);
-          filter.classList.toggle("bg-gray-800/80", !isActive);
-          filter.classList.toggle("text-gray-300", !isActive);
+          filter.setAttribute("aria-pressed", String(filter === button));
         });
       }
 
@@ -594,7 +1469,175 @@
         });
       });
 
+      document.getElementById("resetFilters").addEventListener("click", () => {
+        searchInput.value = "";
+        activeCategory = "all";
+        activeStatus = "all";
+        updateActiveFilter(categoryFilters[0], categoryFilters);
+        updateActiveFilter(statusFilters[0], statusFilters);
+        filterProjects();
+      });
+
       searchInput.addEventListener("input", filterProjects);
+    </script>
+
+    <!-- Motion design -->
+    <script>
+      (function () {
+        const header = document.getElementById("siteHeader");
+        const onScroll = () =>
+          header.classList.toggle("is-scrolled", window.scrollY > 40);
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        if (!window.gsap || !window.ScrollTrigger) return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        const mm = gsap.matchMedia();
+
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+          // Défilement fluide
+          let lenis = null;
+          if (window.Lenis) {
+            lenis = new Lenis({ lerp: 0.1 });
+            lenis.on("scroll", ScrollTrigger.update);
+            gsap.ticker.add((t) => lenis.raf(t * 1000));
+            gsap.ticker.lagSmoothing(0);
+          }
+          document.querySelectorAll("[data-scroll]").forEach((a) => {
+            a.addEventListener("click", (e) => {
+              const target = document.querySelector(a.getAttribute("href"));
+              if (!target || !lenis) return;
+              e.preventDefault();
+              lenis.scrollTo(target, { offset: -64, duration: 1.4 });
+            });
+          });
+
+          const stage = document.querySelector(".stage-inner");
+          const objs = gsap.utils.toArray(".stage .obj");
+          gsap.set(objs, { z: (i, el) => +el.dataset.z });
+
+          // Intro : le nom monte, puis les objets se posent sur le bureau un par un
+          // L'intro est prête tout de suite (état de départ appliqué), mais ne démarre
+          // qu'une fois la police du nom chargée, pour éviter qu'il change d'aspect en route
+          const intro = gsap.timeline({ paused: true });
+          intro
+            .from(".hero-name .line-inner", {
+              yPercent: 110,
+              duration: 1.2,
+              ease: "expo.out",
+              stagger: 0.12,
+            })
+            .from(
+              objs,
+              {
+                y: () => window.innerHeight * 0.6,
+                rotation: (i) => (i % 2 ? 28 : -28),
+                rotationX: 40,
+                opacity: 0,
+                duration: 1.4,
+                ease: "expo.out",
+                stagger: 0.14,
+              },
+              0.25,
+            )
+            .from(
+              "[data-intro]",
+              {
+                opacity: 0,
+                y: 30,
+                duration: 0.9,
+                ease: "power3.out",
+                stagger: 0.12,
+              },
+              0.8,
+            )
+            .from(
+              header,
+              { opacity: 0, y: -20, duration: 0.8, ease: "power3.out" },
+              1.1,
+            )
+            .add(() => {
+              // Au scroll, les objets s'écartent à des vitesses différentes selon leur profondeur
+              // (seulement sur grand écran : sur mobile ils recouvriraient les boutons)
+              if (!window.matchMedia("(min-width: 901px)").matches) return;
+              objs.forEach((el) => {
+                gsap.to(el, {
+                  y: -(+el.dataset.z + 60) * 0.8,
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 0.6,
+                  },
+                });
+              });
+            });
+
+          const fontReady = document.fonts
+            ? document.fonts.load('800 1em "Anybody"')
+            : Promise.resolve();
+          Promise.race([fontReady, new Promise((r) => setTimeout(r, 1500))])
+            .catch(() => {})
+            .then(() => intro.play());
+
+          // Le bureau s'incline vers le curseur
+          if (window.matchMedia("(pointer: fine)").matches) {
+            const rotY = gsap.quickTo(stage, "rotationY", { duration: 1, ease: "power3" });
+            const rotX = gsap.quickTo(stage, "rotationX", { duration: 1, ease: "power3" });
+            window.addEventListener("pointermove", (e) => {
+              rotY((e.clientX / window.innerWidth - 0.5) * 16);
+              rotX(-(e.clientY / window.innerHeight - 0.5) * 12);
+            });
+          }
+
+          // Maquettes des projets : elles se redressent en arrivant à l'écran
+          gsap.utils.toArray(".shot .obj").forEach((el) => {
+            const alt = el.closest(".project").classList.contains("is-alt");
+            gsap.fromTo(
+              el,
+              { rotationY: alt ? -24 : 24, rotationX: 14, rotation: alt ? 4 : -4, y: 90 },
+              {
+                rotationY: 0,
+                rotationX: 0,
+                rotation: alt ? 1.5 : -1.5,
+                y: 0,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: el.closest(".shot"),
+                  start: "top 95%",
+                  end: "center 55%",
+                  scrub: 0.6,
+                },
+              },
+            );
+          });
+
+          // Feuille du CV : se redresse et se pose pendant le scroll
+          gsap.fromTo(
+            "#cvSheet",
+            { rotateX: 38, rotateZ: -10, y: 120, scale: 0.9 },
+            {
+              rotateX: 0,
+              rotateZ: -3,
+              y: 0,
+              scale: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: ".cv",
+                start: "top 90%",
+                end: "center 60%",
+                scrub: 0.6,
+              },
+            },
+          );
+
+          return () => {
+            if (lenis) lenis.destroy();
+          };
+        });
+      })();
     </script>
   </body>
 </html>
